@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@300;400;500;600;700&family=Signika+Negative:wght@300..700&display=swap');
+
+:root {
+  --text-color: black;
+  --link-color: #4B3869;
+  --link-hover-color: #372F57;
+}
+body {
+  color: var(--text-color);
+  font-size: 16px;
+  font-family: "Hind Madurai", sans-serif;
+}
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--link-hover-color);
+  text-decoration: none;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0; /* Optional: background color */
+}
+  
+.card-body {
+  text-align: center;
+}
+  
+.card img {
+  object-fit: cover;
+  height: 200px;
+}
+
+#profilbackground {
+  background-color: rgb(254, 247, 255);
+  border-radius: 20px;
+  margin-top: 18px;
+  padding: 10px;
+  height: auto;
+}
+
+img {
+  border-radius: 20px;
+}
+
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 20px;
+}
+
+ul {
+  display: flow;
+  border-radius: 20px;
+  color: white;
+  background-color:#21005D;
+  height: auto;
+  width: 200px;
+  text-align: center;
+  padding: 5px;
+
+}
+
+.placeholder-image {
+  width: 400px;
+  height: 300px;
+  background-color: #ccc;
+  margin-bottom: 20px;
+}
+
+
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.form-control {
+  border-radius: 20px;
+  border-color: white;
+  padding: 10px;
+  width: 100%;
+  color: black;
+  background-color:#ECE6F0;
+  font-size: 16px;
+
+}
+
+.navbar-brand {
+  font-size: 32px;
+}
+
+.navbar-brand span {
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+.btn-link {
+  color: var(--link-color);
+  text-decoration: none;
+}
+.btn-link:hover {
+  color: var(--link-hover-color);
+  text-decoration: none;
+}
