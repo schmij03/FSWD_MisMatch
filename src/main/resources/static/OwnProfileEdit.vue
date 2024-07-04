@@ -95,7 +95,6 @@ const handleSaveRequest = async () => {
 const fetchLocation = () => {
   const locationApi = 'https://api.zippopotam.us/CH/';
   const zipValue = profile.value.zip;
-  console.log(zipValue)
   if (!zipValue) return;
 
   const request = `${locationApi}${zipValue}`;
