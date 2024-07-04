@@ -4,6 +4,8 @@
   --text-color: black;
   --link-color: #4B3869;
   --link-hover-color: #372F57;
+  --text-color-secondary: #6C757D;
+  --background-color: #ECE6F0;
 }
 body {
   color: var(--text-color);
@@ -19,6 +21,14 @@ a:hover {
   text-decoration: none;
 }
 
+.container {
+  align-items: start !important;
+}
+
+.secondary-text {
+  color: var(--text-color-secondary);
+}
+
 .login-container {
   display: flex;
   justify-content: center;
@@ -26,14 +36,26 @@ a:hover {
   height: 100vh;
   background-color: #f0f0f0; /* Optional: background color */
 }
-  
+
+.background-color {
+  background-color: var(--background-color);
+}
+.card {
+  border-radius: 10px !important;
+  /* min-height: 530px; */
+}
 .card-body {
   text-align: center;
 }
-  
 .card img {
   object-fit: cover;
   height: 200px;
+  /* padding: 5px; */
+  border-radius: 10px;
+}
+.card .btn {
+  background-color: var(--link-color);
+  border-color: var(--text-color);
 }
 
 #profilbackground {

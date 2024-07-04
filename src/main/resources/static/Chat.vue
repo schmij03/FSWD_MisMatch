@@ -12,6 +12,7 @@
               class="chat-list-item"
             >
               <div class="d-flex justify-content-between align-items-center w-100">
+                <img :src="'/api/profile/' + chat.chatWithUUID + '/profileImage'"  alt="Profil" style="width:47px;height: 47px;margin-right: 5px;" class="rounded-pill">
                 <b-button 
                   :class="{'chat-button': !isSelected(chat.uuid), 'selected-chat-button': isSelected(chat.uuid)}" 
                   block
@@ -71,11 +72,11 @@
   display: flex;
   flex-direction: column;
   max-height: 100vh !important;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc;
   border-radius: 10px;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1); */
   padding: 0px;
-  background-color: #f9f9f9;
+  /* background-color: #f9f9f9; */
 }
 
 .chat-list-title {
@@ -103,11 +104,11 @@
   display: flex;
   flex-direction: column;
   max-height: 100vh;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc;
   border-radius: 10px;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1); */
   padding: 10px;
-  background-color: #f9f9f9;
+  /* background-color: #f9f9f9; */
 }
 
 .chat-title {
@@ -135,9 +136,6 @@
   align-items: center;
   padding: 10px;
   background-color: #f9f9f9;
-  border-top: 1px solid #ccc;
-  border-radius: 0 0 10px 10px;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
   height: 60px;
   flex-shrink: 0;
 }
@@ -279,10 +277,6 @@
   background-color: #514373;
 }
 </style>
-
-
-
-
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
