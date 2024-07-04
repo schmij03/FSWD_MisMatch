@@ -6,7 +6,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
           </svg>
-          <h1 style="margin-left: 20px">Profil</h1>
+          <h1 style="margin-left: 20px">Profile</h1>
         </div>
       </a>
     </div>
@@ -18,11 +18,11 @@
         <h1>{{ profile.displayName }}</h1>
         <b-form @submit.prevent="handleSaveRequest">
           <label>Name:</label>
-          <b-form-input id="displayName" class="displayName" placeholder="displayName" v-model="profile.displayName" class=inputformat></b-form-input>
+          <b-form-input id="displayName" class="displayName" placeholder="displayName" v-model="profile.displayName"></b-form-input>
           <label>PLZ:</label>
-          <b-form-input id="zip" class="zip" placeholder="zip" v-model="profile.zip"class=inputformat></b-form-input>
+          <b-form-input type="number" id="zip" class="zip" placeholder="zip" v-model="profile.zip" @change="fetchLocation"></b-form-input>
           <label>Ortschaft:</label>
-          <b-form-input id="city" class="city" placeholder="city" v-model="profile.city"class=inputformat></b-form-input>
+          <b-form-input id="city" class="city" placeholder="city" v-model="profile.city" readonly></b-form-input>
           <label>Geschlecht:</label>
           <b-form-select id="gender" v-model="profile.gender" required class="form-select">
             <b-form-select-option value="">Bitte auswählen...</b-form-select-option>
@@ -36,26 +36,25 @@
             <b-form-select-option value="FEMALE">Weiblich</b-form-select-option>
           </b-form-select>
           <label>Über dich:</label>
-          <b-form-input id="userIntro" class="userIntro" placeholder="userIntro" v-model="profile.userIntro"class=inputformat></b-form-input>
+          <b-form-input id="userIntro" class="userIntro" placeholder="userIntro" v-model="profile.userIntro"></b-form-input>
           <div class="form-group">
             <label>Interessen / Hobbies:</label>
             <div class="checkbox-container">
               <div class="checkbox-grid">
                 <div v-for="interest in interests" :key="interest.id" class="checkbox-item">
-                  <input type="checkbox" :value="interest.id" v-model="selectedInterests" :id="'interest-' + interest.id" class="checkboxitemself">
-                  <label :for="'interest-' + interest.id" class="small-text">{{ interest.name }}:</label>
+                  <input type="checkbox" :value="interest.id" v-model="selectedInterests" :id="'interest-' + interest.id">
+                  <label :for="'interest-' + interest.id" class="small-text">{{ interest.name }}</label>
                   <small class="small-text2">{{ interest.examples }}</small>
                 </div>
               </div>
             </div>
           </div>
-          <button type="submit" variant="primary" style="width: 100px;">Speichern</button>
+          <button type="submit" style="width: 100px;">Speichern</button>
         </b-form>
       </div>
     </div>
   </div>
 </template>
-
 
 <script setup>
 import { ref, onMounted } from 'vue';
@@ -71,15 +70,12 @@ onMounted(async () => {
   try {
     const interestsResponse = await axios.get('/api/interest/all');
     interests.value = interestsResponse.data;
-    console.log('Interests:', interests.value);
 
     const profileResponse = await axios.get('/api/profile/me');
     profile.value = profileResponse.data;
-    console.log('Profile interests:', profile.value.interests);
     imagePath.value = '/api/profile/' + profile.value.uuid + '/profileImage';
     
     selectedInterests.value = profile.value.interests.map(interest => interest.id);
-    console.log('Selected Interests:', selectedInterests.value);
   } catch (error) {
     console.error('Error fetching data:', error);
   }
@@ -95,6 +91,28 @@ const handleSaveRequest = async () => {
     console.error('Error updating profile:', error);
   }
 };
+
+const fetchLocation = () => {
+  const locationApi = 'https://api.zippopotam.us/CH/';
+  const zipValue = profile.value.zip;
+  console.log(zipValue)
+  if (!zipValue) return;
+
+  const request = `${locationApi}${zipValue}`;
+  fetch(request)
+    .then(response => response.json())
+    .then(data => {
+      if (data.places && data.places.length > 0) {
+        profile.value.city = data.places[0]['place name'];
+      } else {
+        profile.city = '';
+      }
+    })
+    .catch(() => {
+      profile.city = '';
+    });
+};
+
 </script>
 <style scoped>
 .inputformat{
