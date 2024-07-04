@@ -4,6 +4,7 @@ import ch.zhaw.fswd.powerdate.controller.ChatController;
 import ch.zhaw.fswd.powerdate.dto.ChatDto;
 import ch.zhaw.fswd.powerdate.dto.MessageDto;
 import ch.zhaw.fswd.powerdate.dto.NewMessageDto;
+import ch.zhaw.fswd.powerdate.entity.ChatRequestDto;
 import ch.zhaw.fswd.powerdate.socket.WebSocket;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -53,10 +54,10 @@ public class ChatEndpointREST {
         }
     }
 
-    @PutMapping("/createChat")
-    public ResponseEntity<Void> createChat(@RequestParam UUID participantOne, @RequestParam UUID participantTwo) {
+    @PostMapping("/createChat")
+    public ResponseEntity<Void> createChat(@RequestBody ChatRequestDto chatRequestDto) {
         try {
-            chatController.createChat(participantOne, participantTwo);
+            chatController.createChat(chatRequestDto.getParticipantOne(), chatRequestDto.getParticipantTwo());
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

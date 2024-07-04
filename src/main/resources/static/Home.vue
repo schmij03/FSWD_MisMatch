@@ -18,6 +18,7 @@
             <div class="row">
               <div class="col-sm-12">{{ profile.data.userIntro }}</div>
             </div>
+            <b-button class="m-4" id="show-btn" @click="createNewChat(currentProfile.uuid, profile.data.uuid)">Chat starten</b-button>
             <b-button class="m-4" id="show-btn" @click="toProfileDetails(profile.data.uuid)">Details</b-button>
           </div>
         </div>
@@ -60,12 +61,17 @@ const router = useRouter();
 const mismatches = ref([]);
 const profiles = ref([]);
 const countdown = ref('');
+const currentProfile = ref({});
 
 // Fetch data from APIs on component mount
 onMounted(async () => {
   startCountdown();
-  const currentProfile = await axios.get("/api/profile/me");
-  var currentProfileUuid = currentProfile.data.uuid;
+  await axios.get("/api/profile/me").then((response) => {
+    console.log(1, 'here', response.data);
+    currentProfile.value = response.data;
+  });
+  var currentProfileUuid = currentProfile.value.uuid;
+  console.log(1, 'here', currentProfile);
 
   const matchesResponse = await axios.get("/api/match/getMatches?userUuid=" + currentProfileUuid);
   mismatches.value = matchesResponse.data;
@@ -78,6 +84,15 @@ onMounted(async () => {
   const profileRequests = mismatches.value.map((uuid) => axios.get(`/api/match/getMatchee/${uuid}`));
   profiles.value = await Promise.all(profileRequests);
 });
+
+function createNewChat(currentProfileUuid, matchProfileUuid) {
+  axios.post("/api/chat/createChat", {
+    participantOne: currentProfileUuid,
+    participantTwo: matchProfileUuid
+  }).then((response) => {
+    router.push("./chat/");
+  });
+}
 
 function toProfileDetails(profileId) {
   router.push("./profileDetails/" + profileId);
