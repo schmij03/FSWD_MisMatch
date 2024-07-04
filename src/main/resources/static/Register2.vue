@@ -107,7 +107,7 @@ export default {
       };
 
       // Send formData as JSON to the server
-      axios.put('/api/profile/register', formData)
+      axios.put('https://mismatch-907b17d7298c.herokuapp.com/api/profile/register', formData)
         .then(response => {
           console.log('Registration data successfully sent to the server:', response.data);
           router.push({ name: 'regSuccess' }); // Navigate to the regSuccess page on success
