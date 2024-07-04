@@ -73,7 +73,9 @@ public class ProfileController {
             List<InterestDbo> interests = interestRepository.findByIdIn(profileDto.getInterests().stream().map(InterestDto::getId).toList());
             p.setInterests(interests);
         }
+        u.setLoginName(p.getDisplayName());
         profileRepository.save(p);
+        userRepository.save(u);
     }
 
     public void registerProfile(RegisterDto registerDto) {
