@@ -86,7 +86,6 @@ watch(isLoggedIn, (newValue) => {
 });
 
 onMounted(() => {
-  console.log("App.vue mounted");
   checkLogin();
 });
 
