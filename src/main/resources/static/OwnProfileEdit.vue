@@ -23,6 +23,8 @@
           <b-form-input type="number" id="zip" class="zip displayName" placeholder="zip" v-model="profile.zip" @change="fetchLocation"></b-form-input>
           <label>Ortschaft:</label>
           <b-form-input id="city" class="city displayName" placeholder="city" v-model="profile.city" readonly></b-form-input>
+          <label>Telefonnummer:</label>
+          <b-form-input id="mobile" class="displayName" v-model="profile.mobile"></b-form-input>
           <label>Geschlecht:</label>
           <b-form-select id="gender" v-model="profile.gender" required class="form-select">
             <b-form-select-option value="">Bitte auswählen...</b-form-select-option>
@@ -49,6 +51,9 @@
               </div>
             </div>
           </div>
+          <div v-if="error" class="error-message">
+          {{ error }}
+          </div>
           <button type="submit" style="width: 100px;">Speichern</button>
         </b-form>
       </div>
@@ -65,7 +70,7 @@ const profile = ref({});
 const imagePath = ref("");
 const interests = ref([]);
 const selectedInterests = ref([]);
-
+const error = ref('');
 onMounted(async () => {
   try {
     const interestsResponse = await axios.get('/api/interest/all');
@@ -80,17 +85,50 @@ onMounted(async () => {
     console.error('Error fetching data:', error);
   }
 });
-
+const validatePhone = (phone, callback) => {
+  const url = `https://phonevalidation.abstractapi.com/v1/?api_key=79721f91be334674805391f62c466c79&phone=${phone}`;
+  const xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = function() {
+    if (xmlHttp.readyState === 4 && xmlHttp.status === 200)
+      callback(xmlHttp.responseText);
+  }
+  xmlHttp.open("GET", url, true); // true for asynchronous
+  xmlHttp.send(null);
+};
 const handleSaveRequest = async () => {
   const updatedInterests = interests.value.filter(interest => selectedInterests.value.includes(interest.id));
   profile.value.interests = updatedInterests;
+
+  // Convert the validatePhone callback into a Promise to use async/await
+  const validatePhoneAsync = (mobile) => new Promise((resolve, reject) => {
+    validatePhone(mobile, (phoneResponse) => {
+      try {
+        const phoneResult = JSON.parse(phoneResponse);
+        if (phoneResult.valid) {
+          resolve(phoneResult);
+        } else {
+          error.value="Die Telefonnummer ist ungültig.";
+
+        }
+      } catch (error) {
+        error.value="Fehler beim Parsen der Telefonvalidierungsantwort.";
+      }
+    });
+  });
+
   try {
+    // Wait for the phone validation to complete
+    await validatePhoneAsync(profile.value.mobile);
+
+    // If valid, proceed to save the profile
     await axios.post('/api/profile/me', profile.value);
     router.push({ name: 'home' });
   } catch (error) {
-    console.error('Error updating profile:', error);
+    // Log or handle errors related to phone validation or profile update
+    console.error('Error updating profile or validating phone:', error);
   }
 };
+
 
 const fetchLocation = () => {
   const locationApi = 'https://api.zippopotam.us/CH/';
@@ -114,6 +152,11 @@ const fetchLocation = () => {
 
 </script>
 <style scoped>
+.error-message {
+  margin-top: 15px;
+  text-align: center;
+  color: red;
+}
 .inputformat{
   margin-bottom: 15px;
 }
@@ -121,7 +164,7 @@ const fetchLocation = () => {
   padding: 10px;
   background-color: #ECE6F0;
   border-radius: 1rem;
-  max-height: 100px;
+  max-height: 60px;
   overflow-y: auto;
 }
 
