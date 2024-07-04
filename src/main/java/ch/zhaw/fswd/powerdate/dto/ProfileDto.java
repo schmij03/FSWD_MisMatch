@@ -46,7 +46,6 @@ public class ProfileDto {
         profileDbo.setMobile(this.mobile);
         profileDbo.setGender(this.gender);
         profileDbo.setUserIntro(this.userIntro);
-        profileDbo.setInterests(interests == null ? null : interests.stream().map(InterestDto::toDbo).toList());
         profileDbo.setGenderInterest(genderInterest);
         profileDbo.setZip(this.zip);
         profileDbo.setCity(this.city);

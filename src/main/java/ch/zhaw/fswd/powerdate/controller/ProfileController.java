@@ -9,6 +9,7 @@ import ch.zhaw.fswd.powerdate.dto.RegisterDto;
 import ch.zhaw.fswd.powerdate.entity.InterestDbo;
 import ch.zhaw.fswd.powerdate.entity.ProfileDbo;
 import ch.zhaw.fswd.powerdate.entity.UserDbo;
+import ch.zhaw.fswd.powerdate.repository.InterestRepository;
 import ch.zhaw.fswd.powerdate.util.PasswordHasher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,17 +24,19 @@ import ch.zhaw.fswd.powerdate.exceptions.UserNotFoundException;
 public class ProfileController {
     private final ProfileRepository profileRepository;
     private final UserRepository userRepository;
+    private final InterestRepository interestRepository;
     private final PasswordHasher passwordHasher = new PasswordHasher();
 
     @Autowired
-    public ProfileController(ProfileRepository profileRepository, UserRepository userRepository) {
+    public ProfileController(ProfileRepository profileRepository, UserRepository userRepository, InterestRepository interestRepository) {
         this.profileRepository = profileRepository;
         this.userRepository = userRepository;
+        this.interestRepository = interestRepository;
     }
 
     public List<ProfileDto> getPublicProfiles() {
         return profileRepository.findAll().stream()
-            .filter(profile -> !profile.getUuid().equals("6e9b2f43-7c8a-4d3e-8a1b-9e9a74c6c8ff"))
+            .filter(profile -> !profile.getUuid().equals(UUID.fromString("6e9b2f43-7c8a-4d3e-8a1b-9e9a74c6c8ff")))
             .map(ProfileDto::new)
             .toList();
     }
@@ -66,6 +69,10 @@ public class ProfileController {
         UserDbo u = userRepository.findById(loginName).orElseThrow(UserNotFoundException::new);
         ProfileDbo p = u.getProfile();
         profileDto.updateEntity(p);
+        if (profileDto.getInterests() != null) {
+            List<InterestDbo> interests = interestRepository.findByIdIn(profileDto.getInterests().stream().map(InterestDto::getId).toList());
+            p.setInterests(interests);
+        }
         profileRepository.save(p);
     }
 

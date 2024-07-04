@@ -52,4 +52,14 @@ public class ChatEndpointREST {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @PutMapping("/createChat")
+    public ResponseEntity<Void> createChat(@RequestParam UUID participantOne, @RequestParam UUID participantTwo) {
+        try {
+            chatController.createChat(participantOne, participantTwo);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

@@ -42,6 +42,11 @@ public class MismatchController {
         List<MismatchDto> mismatchesAlltime = getMismatches();
 
         for (ProfileDto currentProfile : profiles) {
+            if ("6e9b2f43-7c8a-4d3e-8a1b-9e9a74c6c8ff".equals(currentProfile.getUuid())) {
+                // check to not generate matches with the admin user
+                continue;
+            }
+
             mismatchesToday = getMismatchesByToday();
             List<MismatchDto> userMismatchesToday = mismatchesToday.stream().filter(match -> match.getMatcher().getUuid().equals(currentProfile.getUuid())).collect(Collectors.toList());
             while (userMismatchesToday.size() < 2) {

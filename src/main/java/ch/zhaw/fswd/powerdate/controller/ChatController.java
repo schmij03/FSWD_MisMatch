@@ -77,6 +77,29 @@ public class ChatController {
         return messagesNotFromUser.size();
     }
 
+    public void createChat(UUID participantOne, UUID participantTwo) {
+        ProfileDbo profileOneDbo = profileRepository.findById(participantOne).orElseThrow(EntityNotFoundException::new);
+        ProfileDbo profileTwoDbo = profileRepository.findById(participantTwo).orElseThrow(EntityNotFoundException::new);
+
+        if (isMessageExisting(profileOneDbo, profileTwoDbo)) {
+            return; // Chat already exists, do nothing
+        }
+        chatRepository.save(new ChatDbo(profileOneDbo, profileTwoDbo, false));
+    }
+
+    private boolean isMessageExisting(ProfileDbo participantOne, ProfileDbo participantTwo) {
+        List<ChatDbo> chats = new ArrayList<>();
+        chats.addAll(chatRepository.findByParticipantOne(participantOne));
+        chats.addAll(chatRepository.findByParticipantOne(participantTwo));
+        chats.addAll(chatRepository.findByParticipantTwo(participantOne));
+        chats.addAll(chatRepository.findByParticipantTwo(participantTwo));
+
+        return chats.stream().anyMatch(chat ->
+                (chat.getParticipantOne().equals(participantOne) && chat.getParticipantTwo().equals(participantTwo)) ||
+                        (chat.getParticipantOne().equals(participantTwo) && chat.getParticipantTwo().equals(participantOne))
+        );
+    }
+
     private List<ChatDbo> findChatsByProfile(ProfileDbo profileDbo) {
         List<ChatDbo> chatsOne = chatRepository.findByParticipantOne(profileDbo);
         List<ChatDbo> chatsTwo = chatRepository.findByParticipantTwo(profileDbo);
