@@ -289,7 +289,7 @@ const messageInput = ref('');
 const selectedChatName = ref(''); 
 const selectedChatWithUuid = ref('');
 
-const socket = new WebSocket("ws://mismatch-907b17d7298c.herokuapp.com/ws");
+const socket = new WebSocket("ws://https://mismatch-907b17d7298c.herokuapp.com/ws");
 
 socket.onmessage = (m) => {
   console.log('Received message from the chat server');
