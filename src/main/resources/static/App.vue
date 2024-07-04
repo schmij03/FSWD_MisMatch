@@ -7,23 +7,23 @@
         </a>
         <a v-if=isLoggedIn class="navbar-brand">
           <b-button variant="link" class="navbar-brand position-relative" @click="toHome">
-            <b>Home</b>
+            <!-- <b>Home</b> -->
+            <img src="/assets/logo.jpg" alt="Logo" width="94" height="49">
           </b-button>
           <b-button variant="link" class="navbar-brand position-relative" @click="toChats">
-            <b>Chat</b>
+            <b>Chats</b>
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               {{ amountChats }}
             </span>
           </b-button>
         </a>
-        <!-- File Upload -->
         <div v-if=isLoggedIn class="d-flex">
           <b-dropdown size="lg" variant="link" toggle-class="text-decoration-none" no-caret>
             <template #button-content>
-              <img :src="imagePath" alt="Avatar Logo" style="width:55px;" class="rounded-pill">
+              <img :src="imagePath" alt="Profil" style="width:55px;" class="rounded-pill">
             </template>
-            <b-dropdown-item href="#" to="ownProfileEdit">Profile</b-dropdown-item>
-            <b-dropdown-item href="#" @click="handleLogout">Logout</b-dropdown-item>
+            <b-dropdown-item href="#" to="ownProfileEdit">Profil</b-dropdown-item>
+            <b-dropdown-item href="#" @click="handleLogout">Abmelden</b-dropdown-item>
           </b-dropdown>
         </div>
       </div>
@@ -69,8 +69,8 @@ const registrationData = ref({
   zip: '',
   city: '',
   password: '',
-  about: '',
-  passwordcheck: ''
+  passwordcheck: '',
+  about: ''
 });
 
 provide('registrationData', registrationData);
