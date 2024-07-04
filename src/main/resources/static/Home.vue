@@ -42,6 +42,12 @@
       </b-modal>
     </div> -->
   </b-container>
+  <div class="container-sm text-centered">
+    <h3>
+      Mismatches aktualisieren sich in:<br />
+      {{ countdown }}
+    </h3>
+  </div>
 </template>
 
 <script setup>
@@ -53,9 +59,11 @@ const router = useRouter();
 // Initialize reactive variables
 const mismatches = ref([]);
 const profiles = ref([]);
+const countdown = ref('');
 
 // Fetch data from APIs on component mount
 onMounted(async () => {
+  startCountdown();
   const currentProfile = await axios.get("/api/profile/me");
   var currentProfileUuid = currentProfile.data.uuid;
 
@@ -73,5 +81,24 @@ onMounted(async () => {
 
 function toProfileDetails(profileId) {
   router.push("./profileDetails/" + profileId);
+}
+
+function startCountdown() {
+  updateCountdown();
+  setInterval(updateCountdown, 1);
+}
+
+function updateCountdown() {
+  const now = new Date();
+  const midnight = new Date(now);
+  midnight.setHours(24, 0, 0, 0); // Set to next midnight
+
+  const diff = midnight - now;
+
+  const hours = Math.floor(diff / 1000 / 60 / 60);
+  const minutes = Math.floor((diff / 1000 / 60) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  countdown.value = `${hours}:${minutes}:${seconds}`;
 }
 </script>
