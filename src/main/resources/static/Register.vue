@@ -98,7 +98,7 @@ export default {
     };
 
     const validateEmail = (email, callback) => {
-      const url = `https://emailvalidation.abstractapi.com/v1/?api_key=9fcebc7e1ffc454791a56d04e4c964e1&email=${email}`;
+      const url = `https://emailvalidation.abstractapi.com/v1/?api_key=3e23141ece37454fa29233444dafee4a&email=${email}`;
       const xmlHttp = new XMLHttpRequest();
       xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200)
@@ -109,7 +109,7 @@ export default {
     };
 
     const validatePhone = (phone, callback) => {
-      const url = `https://phonevalidation.abstractapi.com/v1/?api_key=21cd409dc94f4b88b1f3f32dd1a7f40f&phone=${phone}`;
+      const url = `https://phonevalidation.abstractapi.com/v1/?api_key=79721f91be334674805391f62c466c79&phone=${phone}`;
       const xmlHttp = new XMLHttpRequest();
       xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200)

@@ -20,9 +20,9 @@
           <label>Anzeigename:</label>
           <b-form-input id="displayName" class="displayName" placeholder="displayName" v-model="profile.displayName"></b-form-input>
           <label>PLZ:</label>
-          <b-form-input type="number" id="zip" class="zip" placeholder="zip" v-model="profile.zip" @change="fetchLocation"></b-form-input>
+          <b-form-input type="number" id="zip" class="zip displayName" placeholder="zip" v-model="profile.zip" @change="fetchLocation"></b-form-input>
           <label>Ortschaft:</label>
-          <b-form-input id="city" class="city" placeholder="city" v-model="profile.city" readonly></b-form-input>
+          <b-form-input id="city" class="city displayName" placeholder="city" v-model="profile.city" readonly></b-form-input>
           <label>Geschlecht:</label>
           <b-form-select id="gender" v-model="profile.gender" required class="form-select">
             <b-form-select-option value="">Bitte auswählen...</b-form-select-option>
@@ -36,14 +36,14 @@
             <b-form-select-option value="FEMALE">Weiblich</b-form-select-option>
           </b-form-select>
           <label>Über dich:</label>
-          <b-form-input id="userIntro" class="userIntro" placeholder="userIntro" v-model="profile.userIntro"></b-form-input>
+          <b-form-input id="userIntro" class="userIntro displayName" placeholder="userIntro" v-model="profile.userIntro"></b-form-input>
           <div class="form-group">
             <label>Interessen / Hobbies:</label>
             <div class="checkbox-container">
               <div class="checkbox-grid">
                 <div v-for="interest in interests" :key="interest.id" class="checkbox-item">
                   <input type="checkbox" :value="interest.id" v-model="selectedInterests" :id="'interest-' + interest.id">
-                  <label :for="'interest-' + interest.id" class="small-text">{{ interest.name }}</label>
+                  <label :for="'interest-' + interest.id" class="small-text">{{ interest.name }}:</label>
                   <small class="small-text2">{{ interest.examples }}</small>
                 </div>
               </div>
@@ -121,7 +121,7 @@ const fetchLocation = () => {
   padding: 10px;
   background-color: #ECE6F0;
   border-radius: 1rem;
-  max-height: 125px;
+  max-height: 100px;
   overflow-y: auto;
 }
 
@@ -139,6 +139,7 @@ const fetchLocation = () => {
 }
 
 .small-text {
+  margin-left:10px;
   font-size: 1rem;
   margin-right: 10px;
   font-weight: bold;
@@ -175,5 +176,8 @@ button {
   border-radius: 20px;
   cursor: pointer;
   margin-top: 15px;
+}
+.displayName{
+  margin-bottom: 10px;
 }
 </style>
