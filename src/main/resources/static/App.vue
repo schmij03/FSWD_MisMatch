@@ -16,6 +16,7 @@
             </span>
           </b-button>
         </a>
+        <!-- File Upload -->
         <div v-if=isLoggedIn class="d-flex">
           <b-dropdown size="lg" variant="link" toggle-class="text-decoration-none" no-caret>
             <template #button-content>
