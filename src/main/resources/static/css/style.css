@@ -20,6 +20,10 @@ a:hover {
   color: var(--link-hover-color);
   text-decoration: none;
 }
+h3 {
+  text-align: center;
+  margin-top: 20px;
+}
 
 .container {
   align-items: start !important;

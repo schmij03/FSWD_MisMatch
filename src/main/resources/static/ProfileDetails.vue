@@ -44,7 +44,7 @@
                 class="biography"
                 placeholder="biography"
                 rows="3"
-                v-model="profile.biography"
+                v-model="profile.userIntro"
                 plaintext="readonly"
             ></b-form-textarea>
             <label class="sr-only" for="interests"></label>
