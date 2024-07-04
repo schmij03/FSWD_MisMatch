@@ -17,7 +17,7 @@
       <div class="col-6">
         <h1>{{ profile.displayName }}</h1>
         <b-form @submit.prevent="handleSaveRequest">
-          <label>Name:</label>
+          <label>Anzeigename:</label>
           <b-form-input id="displayName" class="displayName" placeholder="displayName" v-model="profile.displayName"></b-form-input>
           <label>PLZ:</label>
           <b-form-input type="number" id="zip" class="zip" placeholder="zip" v-model="profile.zip" @change="fetchLocation"></b-form-input>
